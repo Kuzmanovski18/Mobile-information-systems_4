@@ -22,6 +22,9 @@ class _CalendarPageState extends State<CalendarPage> {
   Map<DateTime, List<Exam>> _events = {};
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
+
+  Set<String> notifiedExams = Set();
+
   @override
   void initState() {
     super.initState();
@@ -96,8 +99,11 @@ class _CalendarPageState extends State<CalendarPage> {
             exam.longitude,
           );
           print('Distance to ${exam.name}: $distance meters');
-          if (distance <= 500) {
+
+
+          if (distance <= 500 && !notifiedExams.contains(exam.name)) {
             _showNotification(exam.name, exam.location);
+            notifiedExams.add(exam.name);
           }
         }
       }
